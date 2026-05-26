@@ -1,0 +1,472 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shashank N Rai - Interactive Resume</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0f172a;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #93c5fd;
+            font-weight: 300;
+        }
+
+        /* Navigation Tabs */
+        .tabs-container {
+            max-width: 1000px;
+            margin: -20px auto 2rem auto;
+            position: relative;
+            z-index: 10;
+            padding: 0 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Main Content Mainframe */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Personal Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+        }
+
+        .info-card label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Education Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.25rem;
+            transform: translateX(-45%);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 3px solid var(--card-bg);
+            box-shadow: 0 0 0 3px rgba(5b, 130, 246, 0.2);
+        }
+
+        .timeline-badge {
+            background: #eff6ff;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item h3 {
+            color: var(--secondary);
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-institution {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .score {
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        /* Skills Layout */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-group h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .skill-badge {
+            display: inline-block;
+            background: #f1f5f9;
+            color: var(--secondary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            margin: 0.3rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .skill-badge:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Certifications & Projects Document Cards */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cert-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: #f8fafc;
+            transition: transform 0.3s ease;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .cert-card h3 {
+            font-size: 1.15rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-org {
+            color: var(--primary-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .project-list {
+            list-style-type: none;
+            margin-top: 0.75rem;
+        }
+
+        .project-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .project-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--primary-light);
+            font-weight: bold;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            header { padding: 2.5rem 1rem; }
+            .tabs { border-radius: 8px; }
+            .tab-btn { padding: 0.8rem 1rem; font-size: 0.9rem; }
+            .tab-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="1000067928.png" alt="Shashank N Rai Profile Picture" class="profile-img">
+            <h1>Shashank N Rai</h1>
+            <p>Electrical & Electronics Engineering Student</p>
+        </div>
+    </header>
+
+    <div class="tabs-container">
+        <nav class="tabs" role="tablist">
+            <button class="tab-btn active" onclick="openTab(event, 'personal')">Profile</button>
+            <button class="tab-btn" onclick="openTab(event, 'education')">Education</button>
+            <button class="tab-btn" onclick="openTab(event, 'skills')">Skills</button>
+            <button class="tab-btn" onclick="openTab(event, 'portfolio')">Certificates & Projects</button>
+        </nav>
+    </div>
+
+    <main>
+        <div id="personal" class="tab-content active">
+            <h2>Personal Information</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <label>Full Name</label>
+                    <p>Shashank N Rai</p>
+                </div>
+                <div class="info-card">
+                    <label>Date of Birth</label>
+                    <p>29.10.2006</p>
+                </div>
+                <div class="info-card">
+                    <label>Father's Name</label>
+                    <p>Naveen Kumar H</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="education" class="tab-content">
+            <h2>Educational Qualifications</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-badge">Undergraduate (UG)</span>
+                    <h3>BE in Electrical and Electronics Engineering</h3>
+                    [span_0](start_span)<p class="timeline-institution">Bangalore Institute of Technology (BIT), Bangalore</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-badge">Pre-University (2nd PU)</span>
+                    <h3>Higher Secondary Education</h3>
+                    <p class="timeline-institution">Mahesh PU College</p>
+                    <p>Aggregate Score: <span class="score">85%</span></p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-badge">10th Grade (CBSE)</span>
+                    <h3>Secondary School Examination</h3>
+                    <p class="timeline-institution">Vidyaniketan Public School</p>
+                    <p>Aggregate Score: <span class="score">89%</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="skills" class="tab-content">
+            <h2>Technical Skillset</h2>
+            <div class="skills-container">
+                <div class="skill-group">
+                    <h3>Core Engineering</h3>
+                    <span class="skill-badge">CIRCUIT ANALYSIS</span>
+                    <span class="skill-badge">PCB Design</span>
+                </div>
+                <div class="skill-group">
+                    <h3>Software & Systems</h3>
+                    <span class="skill-badge">C++</span>
+                    <span class="skill-badge">SQL</span>
+                    <span class="skill-badge">HTML</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="portfolio" class="tab-content">
+            <h2>Industrial Programs & Certifications</h2>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <span class="timeline-badge" style="float: right;">Program</span>
+                    <h3>Industrial Program on Hybrid Electric Vehicle</h3>
+                    <p class="cert-org">Apsis Solutions</p>
+                    <p class="cert-date">01st Feb, 2026 to 01st Apr, 2026</p>
+                    <strong>Completed Engineering Milestones:</strong>
+                    <ul class="project-list">
+                        [span_3](start_span)<li>MATLAB Script Development for EV Motor Efficiency Plots</li>
+                        [span_4](start_span)<li>Velocity and Distance Calculation of Electric Vehicle from Motor Torque using Simulink Model</li>
+                        [span_5](start_span)<li>Modeling of DC Motor</li>
+                    </ul>
+                </div>
+                <div class="cert-card">
+                    <span class="timeline-badge" style="float: right;">Competition</span>
+                    <h3>National Financial Literacy Quiz 2026[span_6]</h3>
+                    <p class="cert-org">National Institute of Securities Markets (NISM)</p>
+                    <p class="cert-date">College Round (Representing Department of EEE, BIT)[2025-2029]</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
+                        [span_9](start_span)A capacity building initiative of the Securities and Exchange Board of India (SEBI).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function openTab(evt, tabId) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            // Remove active status from all tab buttons
+            const tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+
+            // Target select viewport active pane logic
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
